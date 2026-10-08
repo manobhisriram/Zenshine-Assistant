@@ -1,0 +1,78 @@
+# Tenant definition: everything business-specific lives here, so a new brand, city or
+# country is a new YAML file plus a knowledge folder, not a code change.
+id: zenshine
+brand:
+  name: ZenShine Pro
+  legal_name: ZenShine Pro Services
+  tagline: "We don't just clean, we transform your space."
+  city: Chennai
+  region: Tamil Nadu
+  country: India
+  business_type: professional cleaning company
+
+locale:
+  default_language: en
+  supported_languages: [en, ta, hi]
+  timezone: Asia/Kolkata
+
+currency:
+  code: INR
+  symbol: "₹"
+  minor_unit_decimals: 0
+
+contact:
+  phone: "+91 98765 43210"
+  phone_note: "Call or WhatsApp"
+  email: queries@zenshinepro.in
+  address: "12 Green Park Street, T Nagar, Chennai 600017"
+  hours: "Mon-Sat 8AM-8PM, Sun 9AM-5PM"
+
+operations:
+  same_day_cutoff: "Same-day service is available if booked before 11AM."
+  payment: "Cash, UPI (GPay/PhonePe/Paytm) or bank transfer, collected after the service. No advance payment is required."
+
+# Prices are per `unit` and are the single source of truth for the quote tool and the prompt.
+services:
+  - {id: house_cleaning,  name: Full House Cleaning,           price: 2000, unit: visit,    duration: "3-5 hours",    notes: "Up to 2BHK. Includes FREE Door & Window Cleaning."}
+  - {id: bathroom,        name: Bathroom Cleaning,             price: 500,  unit: bathroom, duration: "45-60 min each"}
+  - {id: lawn_garden,     name: Lawn & Garden Cleaning,        price: 800,  unit: visit,    duration: "1-2 hours",    notes: "Up to 500 sq ft."}
+  - {id: floor,           name: Floor Cleaning & Polishing,    price: 1000, unit: visit,    duration: "1-2 hours"}
+  - {id: door_window,     name: Door & Window Cleaning,        price: 300,  unit: visit,    duration: "30-45 min"}
+  - {id: kitchen,         name: Kitchen Deep Cleaning,         price: 1200, unit: visit,    duration: "1.5-2 hours"}
+  - {id: sofa,            name: Sofa & Upholstery Cleaning,    price: 700,  unit: set,      duration: "1-1.5 hours"}
+  - {id: mattress,        name: Mattress Deep Cleaning,        price: 600,  unit: mattress, duration: "45-60 min"}
+  - {id: water_tank,      name: Water Tank Cleaning,           price: 1500, unit: tank,     duration: "2-3 hours",    notes: "Up to 1000L per tank."}
+  - {id: pest_sanitize,   name: Pest-Deterrent Sanitization,   price: 900,  unit: visit,    duration: "2-3 hours"}
+  - {id: post_construction, name: Post-Construction Cleanup,   price: 3500, unit: visit,    price_is_from: true, requires_site_visit: true, notes: "From 3,500 for 1BHK; final price after a site visit."}
+  - {id: office,          name: Office & Commercial Cleaning,  custom_quote: true}
+
+discounts:
+  # Combo tiers apply to the paid services in a booking.
+  combo_tiers:
+    - {min_services: 3, percent: 20}
+    - {min_services: 2, percent: 10}
+  first_time_flat: 100          # stackable with the combo discount
+  monthly_contract_percent: 15  # flat off all services; not stacked with the combo tier (the larger applies)
+  referral_flat: 150            # both parties, next booking
+  free_with:                    # complimentary add-on when the trigger service is booked
+    - {trigger: house_cleaning, free: door_window}
+  festival_note: "Special festival pricing runs during Diwali, Pongal and New Year; confirm current offers with the team."
+
+# Fixed package prices published by the business (authoritative over arithmetic on components).
+packages:
+  - {id: fresh_home,        name: Fresh Home Pack,         includes: [house_cleaning, bathroom, floor],                                           list_price: 3500, discounted_price: 2800}
+  - {id: kitchen_hygiene,   name: Kitchen & Hygiene Pack,  includes: [kitchen, bathroom],                                                         list_price: 1700, discounted_price: 1530}
+  - {id: premium_full_home, name: Premium Full Home,       includes: [house_cleaning, bathroom, kitchen, floor, sofa, door_window, lawn_garden], list_price: 7500, discounted_price: 6000}
+  - {id: new_home_starter,  name: New Home Starter,        includes: [post_construction, floor, water_tank],                                   starting_price: 5500, custom_quote: true}
+  - {id: office_ready,      name: Office Ready,            includes: [office],                                                                   custom_quote: true, notes: "Office, washrooms, pantry and floors; quoted by office size."}
+
+ui:
+  welcome_title: "Welcome to ZenShine Pro"
+  welcome_body: "I can help with services, pricing, packages and bookings. Ask me anything and I'll find the best option for you."
+  suggestions:
+    - "Lawn cleaning cost?"
+    - "What's included in a full house clean?"
+    - "House + kitchen + bathroom total?"
+    - "Any combo discounts?"
+    - "How do I book a service?"
+  disclaimer: "Responses are AI-generated. For urgent queries, call {phone}."

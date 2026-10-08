@@ -1,0 +1,39 @@
+# Local full stack: API + web UI + Redis. Needs only ANTHROPIC_API_KEY and PINECONE_API_KEY (see .env.example).
+services:
+  api:
+    build: ./backend
+    env_file: .env
+    environment:
+      APP_ENV: development
+      REDIS_URL: redis://redis:6379/0
+      CORS_ORIGINS: http://localhost:8080,http://localhost:5173
+      LEADS_FILE_PATH: /app/var/leads.jsonl
+      LOG_LEVEL: INFO
+    volumes:
+      - leads:/app/var
+    depends_on:
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  web:
+    build: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.4-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "256mb", "--maxmemory-policy", "volatile-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  leads:
