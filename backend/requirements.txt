@@ -7,7 +7,7 @@ httptools==0.8.0
 pydantic==2.13.5
 pydantic-settings==2.15.0
 anthropic==1.12.1
-pinecone==7.3.0
+pinecone==10.0.0
 redis==8.1.0
 boto3==1.43.109
 structlog==26.1.0
