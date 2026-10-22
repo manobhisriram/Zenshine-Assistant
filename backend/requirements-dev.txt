@@ -1,8 +1,8 @@
 -r requirements.txt
 pytest==9.1.1
 pytest-asyncio==1.4.0
-fakeredis==2.39.0
-moto[dynamodb,sns]==5.2.3
-ruff==0.16.10
+fakeredis==2.40.0
+moto[dynamodb,sns]==5.2.4
+ruff==0.17.1
 mypy==2.4.0
 types-PyYAML==6.0.12.20260906
